@@ -21,12 +21,21 @@ conda install pytorch==$PYTORCH_VERSION torchvision==0.12.0 torchaudio==0.11.0 c
 echo "--- Installing build dependencies (openblas, g++, ninja, cuda-toolkit) ---"
 conda install openblas-devel -c anaconda -y
 conda install gxx_linux-64 -y
-conda install ninja -y                                  # Recommended build system for PyTorch extensions
-conda install -c nvidia cuda-toolkit=11.3 -y            # CRITICAL FIX: Installs the nvcc compiler
+conda install ninja -y
+conda install -c nvidia cuda-toolkit=11.3 -y
 
 # Install compatible build tools (setuptools<60)
 echo "--- Installing compatible pip build tools ---"
 pip install --upgrade pip "setuptools<60" wheel
+
+# ------------------------------------------------------------------
+# CRITICAL FIX: Force the build to use the Conda environment's CUDA toolkit
+# This prevents the system's global CUDA (12.4) from being used.
+echo "--- Forcing build to use Conda's CUDA toolkit ---"
+export CUDA_HOME=$CONDA_PREFIX
+export PATH=$CONDA_PREFIX/bin:$PATH
+export LD_LIBRARY_PATH=$CONDA_PREFIX/lib:$LD_LIBRARY_PATH
+# ------------------------------------------------------------------
 
 # Install MinkowskiEngine from PyPI
 echo "--- Installing MinkowskiEngine ---"
