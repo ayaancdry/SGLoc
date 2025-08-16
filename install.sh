@@ -18,12 +18,14 @@ echo "--- Installing PyTorch $PYTORCH_VERSION with CUDA $CUDA_VERSION ---"
 conda install pytorch==$PYTORCH_VERSION torchvision==0.12.0 torchaudio==0.11.0 cudatoolkit=$CUDA_VERSION -c pytorch -y
 
 # Install build dependencies required by MinkowskiEngine
-echo "--- Installing build dependencies (openblas, g++) ---"
+echo "--- Installing build dependencies (openblas, g++, ninja, cuda-toolkit) ---"
 conda install openblas-devel -c anaconda -y
 conda install gxx_linux-64 -y
+conda install ninja -y                                  # Recommended build system for PyTorch extensions
+conda install -c nvidia cuda-toolkit=11.3 -y            # CRITICAL FIX: Installs the nvcc compiler
 
-# CRITICAL FIX: Upgrade pip and pin setuptools to a version compatible with numpy.distutils
-echo "--- Installing compatible build tools (setuptools<60) ---"
+# Install compatible build tools (setuptools<60)
+echo "--- Installing compatible pip build tools ---"
 pip install --upgrade pip "setuptools<60" wheel
 
 # Install MinkowskiEngine from PyPI
