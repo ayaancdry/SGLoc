@@ -16,6 +16,7 @@ conda activate $ENV_NAME
 conda install pytorch==$PYTORCH_VERSION torchvision torchvision==0.12.0 torchaudio==0.11.0 cudatoolkit=$CUDA_VERSION -c pytorch -y
 # Install MinkowskiEngine
 conda install openblas-devel -c anaconda -y
+conda install -y -c nvidia/label/cuda-11.3.0 cuda-nvcc
 pip install pip==22.2.1
 pip install -U git+https://github.com/NVIDIA/MinkowskiEngine -v --no-deps --install-option="--blas_include_dirs=${CONDA_PREFIX}/include" --install-option="--blas=openblas"
 # Install
